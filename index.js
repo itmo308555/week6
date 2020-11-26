@@ -12,7 +12,7 @@ import UserModel from './models/User.js';
 const {URL} = process.env.MONGO_URI
 const User = UserModel(m);
 const app = appSrc(express, bodyParser, fs, crypto, http, CORS, User);
-const PORT = process.env.PORT ?? 443
+const PORT = process.env.PORT || 443;
 try{
     await m.connect(URL, {useNewUrlParser:true, useUnifiedTopology:true});
     app.listen(PORT, () => console.log(`Server listening on port ${PORT}!`));
