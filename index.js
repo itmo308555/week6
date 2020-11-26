@@ -14,7 +14,7 @@ const User = UserModel(m);
 const app = appSrc(express, bodyParser, fs, crypto, http, CORS, User);
 const PORT = process.env.PORT || 443;
 try{
-    await m.connect(URL, {useNewUrlParser:true, useUnifiedTopology:true});
+    m.connect(URL, {useNewUrlParser:true, useUnifiedTopology:true});
     app.listen(PORT, () => console.log(`Server listening on port ${PORT}!`));
 }
 catch(e){
