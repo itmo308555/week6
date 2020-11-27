@@ -44,7 +44,7 @@ export default function appScr(express, bodyParser, fs, crypto, http, CORS, User
             const {login,password,URL}=req.body;
             const newUser = new User({login,password});
             try{
-                m.connect(URL, {useNewUrlParser:true, useUnifiedTopology:true});
+                await m.connect(URL, {useNewUrlParser:true, useUnifiedTopology:true});
                 try{
                     await newUser.save();
                     res.status(201).json({'Добавлено: ':login});
