@@ -1,5 +1,5 @@
 
-export default function appScr(express, bodyParser, fs, crypto, http, CORS, User) {
+export default function appScr(express, bodyParser, fs, crypto, http, CORS, User, m) {
     const app = express();
     const hu = {'Content-Type':'text/html; charset=utf-8'}
     let headers = {
@@ -41,16 +41,21 @@ export default function appScr(express, bodyParser, fs, crypto, http, CORS, User
         })
         .post('/insert/', async (req,res)=>{
             res.set(headers);
-            const {login,password}=req.body;
+            const {login,password,URL}=req.body;
             const newUser = new User({login,password});
             try{
-                await newUser.save();
-                res.status(201).json({'Добавлено: ':login});
+                m.connect(URL, {useNewUrlParser:true, useUnifiedTopology:true});
+                try{
+                    await newUser.save();
+                    res.status(201).json({'Добавлено: ':login});
+                }
+                catch(e){
+                    res.status(400).json({'Ошибка: ':'Нет пароля'});
+                }
             }
             catch(e){
-                res.status(400).json({'Ошибка: ':'Нет пароля'});
-            }
-            
+                console.log(e.codeName);
+            }      
         })
         .use(({res:r})=>r.status(404).set(hu).send('itmo307709'))
     return app;
